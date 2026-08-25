@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Student workspace — Evaluate</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-mark">
+          <span class="mark">A</span><span>Evaluate</span>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="active" href="#overview">Overview</a
+          ><a href="#submissions">My submissions</a
+          ><a href="#feedback">Feedback</a>
+        </nav>
+        <div class="sidebar-footer">
+          <strong id="sidebar-name">Student</strong
+          ><span>Student workspace</span><br /><button
+            class="btn btn-quiet"
+            id="logout"
+            style="margin-top: 14px; color: #fff; border-color: #52626a"
+          >
+            Sign out
+          </button>
+        </div>
+      </aside>
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">
+              Student workspace / <span id="today"></span>
+            </div>
+            <h1>Read your progress.</h1>
+            <p>
+              See where your work is strong, and where one more revision will
+              matter.
+            </p>
+          </div>
+          <div class="topbar-actions">
+            <div class="user-chip">
+              Signed in as <b id="user-name">Student</b>
+            </div>
+            <button class="btn btn-signal" id="upload-open">
+              Upload work <span>↑</span>
+            </button>
+          </div>
+        </header>
+        <section id="overview" class="grid stats-grid">
+          <article class="card stat-card signal">
+            <span class="stat-label">Submissions</span
+            ><strong class="stat-number" id="stat-submissions">—</strong
+            ><span class="stat-note">Across your assignments</span>
+          </article>
+          <article class="card stat-card teal">
+            <span class="stat-label">Average score</span
+            ><strong class="stat-number" id="stat-average">—</strong
+            ><span class="stat-note">Predicted or approved marks</span>
+          </article>
+          <article class="card stat-card rose">
+            <span class="stat-label">Needs review</span
+            ><strong class="stat-number" id="stat-review">—</strong
+            ><span class="stat-note">Similarity or feedback flags</span>
+          </article>
+          <article class="card stat-card ink">
+            <span class="stat-label">Latest result</span
+            ><strong class="stat-number" id="stat-latest">—</strong
+            ><span class="stat-note">Your most recent evaluation</span>
+          </article>
+        </section>
+        <section class="grid two-col">
+          <article id="submissions" class="card">
+            <div class="card-heading">
+              <div>
+                <h2>Submission history</h2>
+                <p>Every upload, its current state, and the measured score.</p>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Assignment</th>
+                    <th>Submitted</th>
+                    <th>Status</th>
+                    <th>Score</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="submissions-body"></tbody>
+              </table>
+            </div>
+          </article>
+          <aside id="feedback" class="card">
+            <div class="card-heading">
+              <div>
+                <h2>Latest feedback</h2>
+                <p id="feedback-title">
+                  Select a submission to inspect its signals.
+                </p>
+              </div>
+            </div>
+            <div id="feedback-content" class="empty">
+              Your evaluation notes will appear here after your first
+              submission.
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+    <div id="upload-modal" class="modal-backdrop hidden">
+      <div class="modal">
+        <div class="modal-heading">
+          <div>
+            <div class="eyebrow">New submission</div>
+            <h2
+              style="
+                font:
+                  700 28px &quot;Playfair Display&quot;,
+                  serif;
+                margin: 8px 0;
+              "
+            >
+              Put the work on record.
+            </h2>
+            <p class="small">
+              PDF and TXT files up to the configured limit are accepted.
+            </p>
+          </div>
+          <button class="icon-btn" id="upload-close">×</button>
+        </div>
+        <div id="upload-message"></div>
+        <form id="upload-form" class="stack">
+          <div class="field">
+            <label for="assignment-select">Assignment</label
+            ><select id="assignment-select" required></select>
+          </div>
+          <div class="field">
+            <label for="submission-file">File</label
+            ><input
+              id="submission-file"
+              type="file"
+              accept=".pdf,.txt"
+              required
+            />
+          </div>
+          <button class="btn btn-primary" type="submit">
+            Evaluate submission <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="toast-root"></div>
+    <script type="module" src="js/student.js"></script>
+  </body>
+</html>

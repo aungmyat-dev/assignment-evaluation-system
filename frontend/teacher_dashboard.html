@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Teacher workspace — Evaluate</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-mark">
+          <span class="mark">A</span><span>Evaluate</span>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="active" href="#overview">Overview</a
+          ><a href="#assignments">Assignments</a
+          ><a href="#submissions">Submissions</a>
+        </nav>
+        <div class="sidebar-footer">
+          <strong id="sidebar-name">Teacher</strong
+          ><span>Teacher workspace</span><br /><button
+            class="btn btn-quiet"
+            id="logout"
+            style="margin-top: 14px; color: #fff; border-color: #52626a"
+          >
+            Sign out
+          </button>
+        </div>
+      </aside>
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">
+              Teacher workspace / <span id="today"></span>
+            </div>
+            <h1>See the signal.</h1>
+            <p>
+              A measured view of class progress, originality risk, and decisions
+              awaiting your review.
+            </p>
+          </div>
+          <div class="topbar-actions">
+            <div class="user-chip">
+              Signed in as <b id="user-name">Teacher</b>
+            </div>
+            <button class="btn btn-signal" id="assignment-open">
+              New assignment <span>＋</span>
+            </button>
+          </div>
+        </header>
+        <section id="overview" class="grid stats-grid">
+          <article class="card stat-card signal">
+            <span class="stat-label">Class average</span
+            ><strong class="stat-number" id="stat-average">—</strong
+            ><span class="stat-note">Across evaluated work</span>
+          </article>
+          <article class="card stat-card teal">
+            <span class="stat-label">Evaluated</span
+            ><strong class="stat-number" id="stat-evaluated">—</strong
+            ><span class="stat-note">Submissions with results</span>
+          </article>
+          <article class="card stat-card rose">
+            <span class="stat-label">Similarity alerts</span
+            ><strong class="stat-number" id="stat-flagged">—</strong
+            ><span class="stat-note">Requires teacher review</span>
+          </article>
+          <article class="card stat-card ink">
+            <span class="stat-label">Assignments</span
+            ><strong class="stat-number" id="stat-assignments">—</strong
+            ><span class="stat-note">Active evaluation briefs</span>
+          </article>
+        </section>
+        <section class="grid two-col">
+          <article id="submissions" class="card">
+            <div class="card-heading">
+              <div>
+                <h2>Submission review queue</h2>
+                <p>
+                  Automated results are evidence, not the final academic
+                  decision.
+                </p>
+              </div>
+              <select
+                id="status-filter"
+                style="
+                  border: 1px solid var(--line);
+                  padding: 8px;
+                  border-radius: 8px;
+                  background: var(--surface);
+                  font-size: 12px;
+                "
+              >
+                <option value="all">All statuses</option>
+                <option value="flagged">Flagged only</option>
+                <option value="evaluated">Evaluated</option>
+                <option value="approved">Approved</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Assignment</th>
+                    <th>Score</th>
+                    <th>Risk</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="submissions-body"></tbody>
+              </table>
+            </div>
+          </article>
+          <aside id="assignments" class="card">
+            <div class="card-heading">
+              <div>
+                <h2>Assignment briefs</h2>
+                <p>
+                  Reference answers and keywords power the evaluation model.
+                </p>
+              </div>
+            </div>
+            <div id="assignment-list" class="stack"></div>
+          </aside>
+        </section>
+      </main>
+    </div>
+    <div id="assignment-modal" class="modal-backdrop hidden">
+      <div class="modal">
+        <div class="modal-heading">
+          <div>
+            <div class="eyebrow">New brief</div>
+            <h2
+              style="
+                font:
+                  700 28px &quot;Playfair Display&quot;,
+                  serif;
+                margin: 8px 0;
+              "
+            >
+              Give the model something to measure.
+            </h2>
+          </div>
+          <button class="icon-btn" id="assignment-close">×</button>
+        </div>
+        <div id="assignment-message"></div>
+        <form id="assignment-form" class="stack">
+          <div class="form-grid">
+            <div class="field wide">
+              <label for="assignment-title">Title</label
+              ><input
+                id="assignment-title"
+                required
+                maxlength="180"
+                placeholder="e.g. The social contract in modern democracy"
+              />
+            </div>
+            <div class="field wide">
+              <label for="assignment-description">Brief</label
+              ><textarea
+                id="assignment-description"
+                placeholder="What should a strong response address?"
+              ></textarea>
+            </div>
+            <div class="field">
+              <label for="assignment-min">Minimum words</label
+              ><input
+                id="assignment-min"
+                type="number"
+                min="1"
+                value="250"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="assignment-max">Maximum words</label
+              ><input
+                id="assignment-max"
+                type="number"
+                min="1"
+                value="1600"
+                required
+              />
+            </div>
+            <div class="field wide">
+              <label for="assignment-keywords">Keywords</label
+              ><input
+                id="assignment-keywords"
+                placeholder="separation of powers, civic duty, legitimacy"
+              />
+            </div>
+            <div class="field wide">
+              <label for="assignment-reference"
+                >Reference answer / concepts</label
+              ><textarea
+                id="assignment-reference"
+                placeholder="Paste a model answer or concept outline for similarity comparison."
+              ></textarea>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">
+            Create assignment <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="review-modal" class="modal-backdrop hidden">
+      <div class="modal">
+        <div class="modal-heading">
+          <div>
+            <div class="eyebrow">Teacher review</div>
+            <h2
+              id="review-title"
+              style="
+                font:
+                  700 28px &quot;Playfair Display&quot;,
+                  serif;
+                margin: 8px 0;
+              "
+            >
+              Submission
+            </h2>
+            <p id="review-subtitle" class="small"></p>
+          </div>
+          <button class="icon-btn" id="review-close">×</button>
+        </div>
+        <div id="review-content"></div>
+        <div class="mt-4">
+      <label class="block text-sm font-medium text-gray-700" >Submitted Content</label >
+      <div
+        id="modal-student-text"
+        class="mt-1 p-3 bg-gray-50 border rounded-md text-sm text-gray-800 max-h-40 overflow-y-auto whitespace-pre-wrap"
+      >
+        <!-- Student's uploaded text will be rendered here -->
+      </div>
+    </div>
+        <form id="approval-form" class="stack" style="margin-top: 22px">
+          <div class="field">
+            <label for="final-score">Final score (optional override)</label
+            ><input
+              id="final-score"
+              type="number"
+              min="0"
+              max="100"
+              placeholder="Leave blank to approve predicted score"
+            />
+          </div>
+          <div class="field">
+            <label for="teacher-comment">Teacher note</label
+            ><textarea
+              id="teacher-comment"
+              placeholder="Explain the final decision or suggest a next step."
+            ></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">
+            Save review decision <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="toast-root"></div>
+    <script type="module" src="js/teacher.js"></script>
+  </body>
+</html>
